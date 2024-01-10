@@ -2,7 +2,7 @@ package Services;
 
 import java.util.Scanner;
 public class Menu {
-    public void iniciarSistema(){
+    public void iniciarSistema(Masmorra masmorra){
         Scanner scanner = new Scanner(System.in);
             int opcao;
             do{
@@ -15,14 +15,14 @@ public class Menu {
                 opcao = scanner.nextInt();
 
                 switch (opcao) {
-                    case 1 -> iniciarJogo();
+                    case 1 -> iniciarJogo(masmorra);
                     case 2 -> System.exit(0);
                     default -> System.out.println("Opção inválida");
                 }
 
             } while(true);
         }
-    public void iniciarJogo(){
+    public void iniciarJogo(Masmorra masmorra){
         Scanner scanner = new Scanner(System.in);
         String nomePersonagem;
         Job job;
@@ -48,7 +48,6 @@ public class Menu {
                 case 1 -> {
                     job = new Job("Guerreiro", "Espada");
                     Personagem jogador = new Personagem(nomePersonagem, 100, 15, 15,15, job);
-                    Masmorra masmorra = new Masmorra();
                     masmorra.iniciarMasmorra(jogador);
                 }
                 default -> System.out.println("Opção inválida");

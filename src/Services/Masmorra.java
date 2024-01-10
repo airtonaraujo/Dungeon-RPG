@@ -1,16 +1,14 @@
 package Services;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
-
 public class Masmorra {
     private List<Inimigo> inimigos;
-    private Inimigo boss;
+    Boss boss;
 
-    public Masmorra() {
-        gerarBoss();
+    public void setBoss(Boss boss) {
+        this.boss = boss;
     }
 
     private void gerarInimigos() {
@@ -22,10 +20,6 @@ public class Masmorra {
             int inimigoDano = random.nextInt(10);
             inimigos.add(new Inimigo(inimigoNome, inimigoHp, inimigoDano));
         }
-    }
-
-    private void gerarBoss() {
-        boss = new Inimigo("Goblin Chefe", 60, 10);
     }
 
     public void iniciarMasmorra(Personagem personagem) {
