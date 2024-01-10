@@ -10,14 +10,12 @@ public class Masmorra {
     private Inimigo boss;
 
     public Masmorra() {
-        inimigos = new ArrayList<>();
-        gerarInimigos();
         gerarBoss();
     }
 
     private void gerarInimigos() {
         Random random = new Random();
-        int numInimigos = 1;
+        int numInimigos = random.nextInt(5) + 3;
         for (int i = 0; i < numInimigos; i++) {
             String inimigoNome = "Goblin " + (i + 1);
             int inimigoHp = 30;
@@ -33,38 +31,43 @@ public class Masmorra {
     public void iniciarMasmorra(Personagem personagem) {
         System.out.println("Bem-vindo à dungeon, " + personagem.getNome() + "!");
         System.out.println("Prepare-se para enfrentar uma série de inimigos.");
-
         salaUm(personagem);
     }
 
     public void salaUm(Personagem personagem) {
+        inimigos = new ArrayList<>();
+        gerarInimigos();
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Você percebe um inimigo à frente");
-        int opcao;
-        do{
-            System.out.println("""
-                O que deseja fazer?
-                
-                1- Atacar
-                2- Fugir
-                """);
-            opcao = scanner.nextInt();
+        System.out.println("Você percebe " + inimigos.size() + " inimigos à frente");
+        for (int i = 0; i < inimigos.size(); ) {
+            int opcao;
+            do {
+                System.out.println("O " + inimigos.get(i) + " está na sua frente");
+                System.out.println("""
+                        O que deseja fazer?
+                                        
+                        1- Atacar
+                        2- Fugir
+                        """);
+                opcao = scanner.nextInt();
 
-            switch (opcao) {
-                case 1 -> {
-                    personagem.atacar(inimigos.get(0));
-                    personagem.receberDano(inimigos.get(0).getDano());
-                    if (inimigos.get(0).getPontosDeVida() <= 0) {
-                        salaDois(personagem);
+                switch (opcao) {
+                    case 1 -> {
+                        personagem.atacar(inimigos.get(i));
+                        personagem.receberDano(inimigos.get(i).getDano());
+                        if (inimigos.get(i).getPontosDeVida() <= 0) {
+                            System.out.println("Você derrotou um inimigo");
+                            i++;
+                        }
                     }
+                    case 2 -> personagem.fugir();
+                    default -> System.out.println("Opção inválida");
                 }
-                case 2 -> personagem.fugir();
-                default -> System.out.println("Opção inválida");
-            }
 
-        } while(inimigos.get(0).getPontosDeVida() > 0);
+            } while (i < inimigos.size());
+        }
+        salaDois(personagem);
     }
-
     public void salaDois(Personagem personagem) {
         System.out.println("voce chegou na proxima sala");
         Scanner scanner = new Scanner(System.in);
