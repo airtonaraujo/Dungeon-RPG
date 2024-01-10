@@ -1,5 +1,4 @@
 package Services;
-import Services.Menu;
 import java.util.Scanner;
 
 public class Personagem{
@@ -51,7 +50,6 @@ public class Personagem{
     }
 
     public void receberDano(int dano){
-        Scanner scanner = new Scanner(System.in);
         pontosDeVida -= dano;
         if(pontosDeVida <= 0) {
             System.out.println(nome + " foi derrotado!");

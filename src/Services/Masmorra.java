@@ -29,11 +29,11 @@ public class Masmorra {
     }
 
     public void salaUm(Personagem personagem) {
+        Scanner scanner = new Scanner(System.in);
         inimigos = new ArrayList<>();
         gerarInimigos();
-        Scanner scanner = new Scanner(System.in);
         System.out.println("Você percebe " + inimigos.size() + " inimigos à frente");
-        for (int i = 0; i < inimigos.size(); ) {
+        for (int i = 0; i < inimigos.size();) {
             int opcao;
             do {
                 System.out.println("O " + inimigos.get(i) + " está na sua frente");
@@ -48,10 +48,11 @@ public class Masmorra {
                 switch (opcao) {
                     case 1 -> {
                         personagem.atacar(inimigos.get(i));
-                        personagem.receberDano(inimigos.get(i).getDano());
                         if (inimigos.get(i).getPontosDeVida() <= 0) {
                             System.out.println("Você derrotou um inimigo");
                             i++;
+                        }else {
+                            personagem.receberDano(inimigos.get(i).getDano());
                         }
                     }
                     case 2 -> personagem.fugir();
@@ -63,8 +64,8 @@ public class Masmorra {
         salaDois(personagem);
     }
     public void salaDois(Personagem personagem) {
-        System.out.println("voce chegou na proxima sala");
         Scanner scanner = new Scanner(System.in);
+        System.out.println("voce chegou na proxima sala");
         System.out.println("Você percebe que o chefe da masmorra está logo a sua frente");
         int opcao;
         do{
@@ -79,10 +80,11 @@ public class Masmorra {
             switch (opcao) {
                 case 1 -> {
                     personagem.atacar(boss);
-                    personagem.receberDano(boss.getDano());
                     if (boss.getPontosDeVida() <= 0) {
                         System.out.println("Você conseguiu derrotar o chefe, aproveite seu tesouro.");
                         System.exit(0);
+                    }else {
+                        personagem.receberDano(boss.getDano());
                     }
                 }
                 case 2 -> personagem.fugir();
