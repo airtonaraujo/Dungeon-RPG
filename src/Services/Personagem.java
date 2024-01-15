@@ -9,6 +9,8 @@ public class Personagem{
     private int inteligencia;
     private Job job;
 
+    private int dano;
+
     public Personagem(String nome, int pontosDeVida, int forca, int destreza, int inteligencia, Job job) {
         this.nome = nome;
         this.pontosDeVida = pontosDeVida;
@@ -42,9 +44,17 @@ public class Personagem{
         return job;
     }
 
+    public int getDano() {
+        return dano;
+    }
+
+    public void setDano(int dano) {
+        this.dano = dano;
+    }
+
     public void atacar(Inimigo inimigo){
-        inimigo.setPontosDeVida(inimigo.getPontosDeVida() - getForca());
-        System.out.println(nome + " ataca " + inimigo.getNome() + " com " + job.getArmaBase() + " e causa " + getForca() + " pontos de dano.");
+        inimigo.setPontosDeVida(inimigo.getPontosDeVida() - getDano());
+        System.out.println(nome + " ataca " + inimigo.getNome() + " com " + job.getArmaBase() + " e causa " + getDano() + " pontos de dano.");
         System.out.println("Vida do " + inimigo + " restante: " + inimigo.getPontosDeVida());
 
     }

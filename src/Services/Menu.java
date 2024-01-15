@@ -1,7 +1,17 @@
 package Services;
-
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 public class Menu {
+    public List<Job> jobs;
+
+    public void criarJobs() {
+        jobs = new ArrayList<>();
+        jobs.add(new Job("Guerreiro", "Espada", 10));
+        jobs.add(new Job("Mago", "Cajado", 10));
+        jobs.add(new Job("Ladino", "Adaga", 10));
+    }
+
     public void iniciarSistema(Masmorra masmorra){
         Scanner scanner = new Scanner(System.in);
             int opcao;
@@ -25,7 +35,6 @@ public class Menu {
     public void iniciarJogo(Masmorra masmorra){
         Scanner scanner = new Scanner(System.in);
         String nomePersonagem;
-        Job job;
             System.out.println("""
                 Todo início de jornada começa com um protagonista.
                                     
@@ -39,15 +48,27 @@ public class Menu {
                 Agora vamos decidir a classe do nosso herói
                 
                 Você pode escolher dentre as seguintes classes:
-                
-                1- Guerreiro
                 """);
+
+            for (int i=0; i < jobs.size(); i++) {
+                System.out.println(i + 1 + " - " + jobs.get(i));
+            }
             opcao = scanner.nextInt();
 
             switch (opcao) {
                 case 1 -> {
-                    job = new Job("Guerreiro", "Espada");
-                    Personagem jogador = new Personagem(nomePersonagem, 100, 15, 15,15, job);
+                    Personagem jogador = new Personagem(nomePersonagem, 100, 15 + jobs.get(0).getAtributoModificador(), 15,15, jobs.get(0));
+                    jogador.setDano(jogador.getForca());
+                    masmorra.iniciarMasmorra(jogador);
+                }
+                case 2 -> {
+                    Personagem jogador = new Personagem(nomePersonagem, 100, 15, 15,15 + jobs.get(1).getAtributoModificador(), jobs.get(1));
+                    jogador.setDano(jogador.getInteligencia());
+                    masmorra.iniciarMasmorra(jogador);
+                }
+                case 3 -> {
+                    Personagem jogador = new Personagem(nomePersonagem, 100, 15, 15 + jobs.get(2).getAtributoModificador(),15, jobs.get(2));
+                    jogador.setDano(jogador.getDestreza());
                     masmorra.iniciarMasmorra(jogador);
                 }
                 default -> System.out.println("Opção inválida");
