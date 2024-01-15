@@ -25,7 +25,7 @@ public class Masmorra {
         }
     }
 
-    private void gerarSalas() {
+    private void gerarSalasAleatorias() {
         Random random = new Random();
         int numSalas = random.nextInt(1) + 2;
         for (int i = 0; i < numSalas; i++) {
@@ -36,52 +36,60 @@ public class Masmorra {
     public void iniciarMasmorra(Personagem personagem) {
         System.out.println("Bem-vindo à dungeon, " + personagem.getNome() + "!");
         System.out.println("Prepare-se para enfrentar uma série de inimigos.");
-        salas(personagem);
+        instanciarSalasDaDungeon(personagem);
     }
 
-    public void salas(Personagem personagem) {
+    public void instanciarSalasDaDungeon(Personagem personagem) {
         Scanner scanner = new Scanner(System.in);
         salas = new ArrayList<>();
-        gerarSalas();
+        gerarSalasAleatorias();
+        percorrerCadaSalaDaDungeon(personagem, scanner);
+        instanciarSalaDoBoss(personagem);
+    }
+
+    private void percorrerCadaSalaDaDungeon(Personagem personagem, Scanner scanner) {
         for (int i = 0; i < salas.size();) {
             System.out.println("Você chegou à sala de numero " + salas.get(i));
             inimigos = new ArrayList<>();
             gerarInimigos();
             System.out.println("Você percebe " + inimigos.size() + " inimigos à frente");
-            for (int y = 0; y < inimigos.size();) {
-                int opcao;
-                do {
-                    System.out.println("O " + inimigos.get(y) + " está na sua frente");
-                    System.out.println("""
-                        O que deseja fazer?
-                                        
-                        1- Atacar
-                        2- Fugir
-                        """);
-                    opcao = scanner.nextInt();
-
-                    switch (opcao) {
-                        case 1 -> {
-                            personagem.atacar(inimigos.get(y));
-                            if (inimigos.get(y).getPontosDeVida() <= 0) {
-                                System.out.println("Você derrotou um inimigo");
-                                y++;
-                            }else {
-                                personagem.receberDano(inimigos.get(y).getDano());
-                            }
-                        }
-                        case 2 -> personagem.fugir();
-                        default -> System.out.println("Opção inválida");
-                    }
-
-                } while (y < inimigos.size());
-            }
+            gerarBatalhas(personagem, scanner);
             i++;
         }
-        salaDoBoss(personagem);
     }
 
-    public void salaDoBoss(Personagem personagem) {
+    private void gerarBatalhas(Personagem personagem, Scanner scanner) {
+        for (int y = 0; y < inimigos.size();) {
+            int opcao;
+            do {
+                System.out.println("O " + inimigos.get(y) + " está na sua frente");
+                System.out.println("""
+                    O que deseja fazer?
+                                    
+                    1- Atacar
+                    2- Fugir
+                    """);
+                opcao = scanner.nextInt();
+
+                switch (opcao) {
+                    case 1 -> {
+                        personagem.atacar(inimigos.get(y));
+                        if (inimigos.get(y).getPontosDeVida() <= 0) {
+                            System.out.println("Você derrotou um inimigo");
+                            y++;
+                        }else {
+                            personagem.receberDano(inimigos.get(y).getDano());
+                        }
+                    }
+                    case 2 -> personagem.fugir();
+                    default -> System.out.println("Opção inválida");
+                }
+
+            } while (y < inimigos.size());
+        }
+    }
+
+    public void instanciarSalaDoBoss(Personagem personagem) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("voce chegou na proxima sala");
         System.out.println("Você percebe que o chefe da masmorra está logo a sua frente");

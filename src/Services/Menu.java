@@ -1,17 +1,7 @@
 package Services;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 public class Menu {
-    public List<Job> jobs;
-
-    public void criarJobs() {
-        jobs = new ArrayList<>();
-        jobs.add(new Job("Guerreiro", "Espada", 10));
-        jobs.add(new Job("Mago", "Cajado", 10));
-        jobs.add(new Job("Ladino", "Adaga", 10));
-    }
-
     public void iniciarSistema(Masmorra masmorra){
         Scanner scanner = new Scanner(System.in);
             int opcao;
@@ -33,6 +23,7 @@ public class Menu {
             } while(true);
         }
     public void iniciarJogo(Masmorra masmorra){
+        ArrayList<Job> jobs = Job.popularListaDeJobs();
         Scanner scanner = new Scanner(System.in);
         String nomePersonagem;
             System.out.println("""
